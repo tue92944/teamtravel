@@ -46,6 +46,12 @@ def dashboard():
     }
     return render_template("dashboard.html",user=User.get_by_id(data))
 
+@app.route('/createpage')
+def createpage():
+    if 'user_id' not in session:
+        return redirect('/logout')
+    return render_template("createpage.html")
+
 @app.route('/logout')
 def logout():
     session.clear()
