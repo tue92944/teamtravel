@@ -1,11 +1,10 @@
-from flask import render_template,redirect,session,request, flash
 from flask_app import app
+from flask import render_template,request,redirect,session,flash
 from flask_app.models.user import User
 from flask_app.models.trip import Trip
-from flask_bcrypt import Bcrypt
-bcrypt = Bcrypt(app)
 
-@app.route('/new/trip')
+
+@app.route('/newtrip')
 def createpage():
     if 'user_id' not in session:
         return redirect('/logout')
@@ -14,10 +13,12 @@ def createpage():
     }
     return render_template('createpage.html',user=User.get_by_id(data))
 
-@app.route('/create/trip', methods=['POST'])
+@app.route('/create', methods=['POST'])
 def newtrip():
+    if 'user_id' not in session:
+        return redirect('/logout')
     if not Trip.validate_trip(request.form):
-        return redirect('/new/trip')
+        return redirect('/newtrip')
     data ={ 
         "location": request.form['location'],
         "description": request.form['description'],
@@ -27,5 +28,11 @@ def newtrip():
     }
     trip_id = Trip.save(data)
 
-    return redirect('/dashboard')
+    return redirect('/confirmed')
+
+@app.route('/confirmed')
+def confirm():
+    if 'user_id' not in session:
+        return redirect('/logout')
+    return render_template('confirmed.html')
 

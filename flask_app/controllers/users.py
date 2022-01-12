@@ -50,6 +50,8 @@ def dashboard():
 
 
 
+
+
 @app.route('/logout')
 def logout():
     session.clear()
