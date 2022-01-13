@@ -45,7 +45,7 @@ def dashboard():
     data ={
         'id': session['user_id']
     }
-    return render_template("dashboard.html",user=User.get_by_id(data))
+    return render_template("dashboard.html",user=User.get_by_id(data),trips=Trip.get_trips_with_user())
 
 
 

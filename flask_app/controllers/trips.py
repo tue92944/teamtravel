@@ -36,3 +36,6 @@ def confirm():
         return redirect('/logout')
     return render_template('confirmed.html')
 
+@app.route('/mytripspage')
+def mytrips():
+    return render_template("mytrips.html")
