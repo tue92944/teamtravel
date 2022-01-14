@@ -69,8 +69,17 @@ a:hover{color:black;}
         opacity:0.8;
 }
 
+#triptext a{
+    color:black;
+    font-weight:bold;
+}
+
+#triptext a:hover{
+    color:#AD8A80;
+}
 h6{
     font-size:20px;
+    margin:5px;
 }
 
 h3{

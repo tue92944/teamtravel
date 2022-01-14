@@ -37,6 +37,22 @@ class Trip:
         return connectToMySQL(cls.db).query_db(query, data)
 
     @classmethod
+    def update(cls, data):
+        query = "UPDATE trips SET location=%(location)s, description=%(description)s, startdate=%(startdate)s, enddate=%(enddate)s,updated_at=NOW() WHERE id = %(id)s;"
+        return connectToMySQL(cls.db).query_db(query,data)
+
+    @classmethod
+    def get_one(cls,data):
+        query = "SELECT * FROM trips WHERE id = %(id)s;"
+        results = connectToMySQL(cls.db).query_db(query,data)
+        return cls(results[0])
+
+    @classmethod
+    def destroy(cls,data):
+        query = "DELETE FROM trips WHERE id = %(id)s;"
+        return connectToMySQL(cls.db).query_db(query,data)
+
+    @classmethod
     def get_trips_with_user(cls):
         query="SELECT * FROM trips LEFT JOIN users ON trips.user_id=users.id;"
         results=connectToMySQL(cls.db).query_db(query)
@@ -66,6 +82,38 @@ class Trip:
             single_user=user.User(user_data)
             single_trip.creator=single_user
             all_trips.append(single_trip)
+        return all_trips
+
+    @classmethod
+    def get_one_with_user(cls,data):
+        query="SELECT * FROM trips LEFT JOIN users ON trips.user_id=users.id WHERE trips.id=%(id)s"
+        results = connectToMySQL(cls.db).query_db(query,data)
+        all_trips=[]
+        for one_user in results:
+            tripdata={
+                "id":one_user['id'],
+                "location":one_user['location'],
+                "description":one_user['description'],
+                "startdate":one_user['startdate'],
+                "enddate": one_user['enddate'],
+                "user_id":one_user['user_id'],
+                "created_at":one_user['created_at'],
+                "updated_at":one_user['updated_at']
+            }
+            trips=cls(tripdata)
+            
+            userdata={
+                "id":one_user['users.id'],
+                "first_name":one_user['first_name'],
+                "last_name":one_user['last_name'],
+                "email":one_user['email'],
+                "password":one_user['password'],
+                "created_at":one_user['users.created_at'],
+                "updated_at":one_user['users.updated_at']
+            }
+            user_obj=user.User(userdata)
+            trips.creator=user_obj
+            all_trips.append(trips)
         return all_trips
 
 

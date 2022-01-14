@@ -37,25 +37,26 @@
                 {% endif %}
             {% endwith %}
             <div class="row">
+                <input type="hidden" name="id" value={{edit.id}}>
                 <div class="col-6">
                     <label for="startdate">Start Date:</label>
-                    <input type="date" class="form-control" name="startdate">
+                    <input type="date" class="form-control" name="startdate" value="{{edit.startdate.strftime('%Y-%m-%d')}}">
                 </div>
                 <div class="col-6">
                     <label for="enddate">End Date:</label>
-                    <input type="date" class="form-control" name="enddate">
+                    <input type="date" class="form-control" name="enddate" value="{{edit.enddate.strftime('%Y-%m-%d')}}">
                 </div>
             </div>
             <div class="row">
                 <div class="col">
                     <label for="location">Location:</label>
-                    <input type="text" class="form-control" name="location">
+                    <input type="text" class="form-control" name="location" value="{{edit.location}}">
                 </div>
             </div>
             <div class="row">
                 <div class="col">
                     <label for="description">Description:</label>
-                    <textarea class="form-control" name="description" rows="6"></textarea>
+                    <textarea class="form-control" name="description" rows="6">{{edit.description}}</textarea>
                 </div>
             </div>
             <input type="submit" value="Update Event" class="submitbutton">
