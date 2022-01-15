@@ -32,6 +32,9 @@
             <h6>Location: {{one_trip.location}}</h6>
             <h6>Description: {{one_trip.description}}</h6>
         {% endfor %}
+        {% if trip.id != session.user_id %}
+            <a href="/addrsvp">RSVP</a>
+        {% endif %}
         </div>
 </body>
 </html> 

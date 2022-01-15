@@ -53,6 +53,11 @@ class Trip:
         return connectToMySQL(cls.db).query_db(query,data)
 
     @classmethod
+    def add_rsvp(cls,data):
+        query="INSERT INTO rsvps (user_id,trip_id) VALUES (%(user_id)s, %(trip_id)s);"
+        return connectToMySQL(cls.db).query_db(query,data)
+
+    @classmethod
     def get_trips_with_user(cls):
         query="SELECT * FROM trips LEFT JOIN users ON trips.user_id=users.id;"
         results=connectToMySQL(cls.db).query_db(query)
