@@ -85,21 +85,21 @@ h6{
 
 }
 
-#createbox a{
+#createbox form input{
     background-color:rgba(153, 114, 102, 2);
     color:white;
     font-weight: 500;
     border-radius:10px;
     margin:20px;
-    margin-top:-10px;
+    margin-top:10px;
+    margin-bottom:5px;
     padding-left:30px;
     padding-right:30px;
     padding-top:10px;
     padding-bottom:10px;
     text-align:center;
     margin-left:250px;
-    margin-top:30px;
 }
 
-#createbox a:hover{color:black;}
+#createbox form input:hover{color:black;}
 

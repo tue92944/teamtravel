@@ -15,6 +15,7 @@ class Trip:
         self.user_id=data['user_id']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
+        self.users_who_rsvpd=[]
         self.creator={}
 
     def time_span(self):
@@ -41,6 +42,7 @@ class Trip:
         query = "UPDATE trips SET location=%(location)s, description=%(description)s, startdate=%(startdate)s, enddate=%(enddate)s,updated_at=NOW() WHERE id = %(id)s;"
         return connectToMySQL(cls.db).query_db(query,data)
 
+
     @classmethod
     def get_one(cls,data):
         query = "SELECT * FROM trips WHERE id = %(id)s;"
@@ -52,10 +54,6 @@ class Trip:
         query = "DELETE FROM trips WHERE id = %(id)s;"
         return connectToMySQL(cls.db).query_db(query,data)
 
-    @classmethod
-    def add_rsvp(cls,data):
-        query="INSERT INTO rsvps (user_id,trip_id) VALUES (%(user_id)s, %(trip_id)s);"
-        return connectToMySQL(cls.db).query_db(query,data)
 
     @classmethod
     def get_trips_with_user(cls):
@@ -117,10 +115,32 @@ class Trip:
                 "updated_at":one_user['users.updated_at']
             }
             user_obj=user.User(userdata)
+            rsvp_obj=user.User(userdata)
             trips.creator=user_obj
+            trips.users_who_rsvpd=rsvp_obj
             all_trips.append(trips)
         return all_trips
 
+    @classmethod
+    def get_by_id(cls,data):
+        query = "SELECT * FROM trips LEFT JOIN rsvps ON trips.id = rsvps.trip_id LEFT JOIN users ON users.id = rsvps.user_id WHERE trips.id = %(id)s;"
+        results = connectToMySQL(cls.db).query_db(query,data)
+
+        trip = cls(results[0])
+
+        for row in results:
+            if row['users.id'] == None:
+                break
+            data = {
+                "id": row['users.id'],
+                "first_name": row['first_name'],
+                "last_name":row['last_name'],
+                "email":row['email'],
+                "created_at": row['users.created_at'],
+                "updated_at": row['users.updated_at']
+            }
+            trip.users_who_rsvpd.append(user.User(data))
+        return trip
 
     @staticmethod
     def validate_trip(trip):

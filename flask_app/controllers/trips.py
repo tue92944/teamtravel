@@ -103,3 +103,22 @@ def destroy(id):
 @app.route('/searchpage')
 def search():
     return render_template("search.html")
+
+@app.route('/rsvp',methods=['POST'])
+def user_rsvp():
+    data = {
+        'user_id': request.form['user_id'],
+        'trip_id': request.form['trip_id']
+    }
+    User.add_rsvp(data)
+    return redirect('/rsvp')
+
+@app.route('/rsvp')
+def show_rsvp():
+    data = {
+        "id":id
+    }
+    user_data = {
+        "id":session['user_id']
+    }
+    return render_template('confirmrsvp.html')

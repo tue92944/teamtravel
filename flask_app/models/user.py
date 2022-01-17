@@ -42,6 +42,20 @@ class User:
         results = connectToMySQL(cls.db).query_db(query,data)
         return cls(results[0])
 
+    @classmethod
+    def unrsvpd_trips(cls,data):
+        query="SELECT * FROM users WHERE users.id NOT IN (SELECT user_id FROM rsvps WHERE trip_id=%(id)s);"
+        users=[]
+        results=connectToMySQL(cls.db).query_db(query,data)
+        for row in results:
+            users.append(cls(row))
+        return users
+
+    @classmethod
+    def add_rsvp(cls,data):
+        query="INSERT INTO rsvps (user_id,trip_id) VALUES (%(user_id)s, %(trip_id)s);"
+        return connectToMySQL(cls.db).query_db(query,data)
+
     @staticmethod
     def validate_register(user):
         is_valid = True

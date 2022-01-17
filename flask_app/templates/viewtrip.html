@@ -27,14 +27,19 @@
     <h4>Trip Details</h4>
         <div id="createbox">  
         {% for one_trip in trip %}
-            <h6>Start Date: {{one_trip.startdate.strftime('%m-%d-%Y')}}</h6>
-            <h6>End Date: {{one_trip.enddate.strftime('%m-%d-%Y')}}</h6>
+            <h6>Start Date: {{one_trip.startdate.strftime('%m/%d/%Y')}}</h6>
+            <h6>End Date: {{one_trip.enddate.strftime('%m/%d/%Y')}}</h6>
             <h6>Location: {{one_trip.location}}</h6>
             <h6>Description: {{one_trip.description}}</h6>
+            {% if one_trip.creator.id != session.user_id %}
+            <h6>Creator: {{one_trip.creator.first_name}} {{one_trip.creator.last_name}}</h6>
+            <form action="/rsvp" method="post">
+                <input type="hidden" name="user_id" value={{session.user_id}}>
+                <input type="hidden" name="trip_id" value={{one_trip.id}}>
+                <input type="submit" value="RSVP">
+            </form>
+            {% endif %}
         {% endfor %}
-        {% if trip.id != session.user_id %}
-            <a href="/addrsvp">RSVP</a>
-        {% endif %}
         </div>
 </body>
 </html> 
