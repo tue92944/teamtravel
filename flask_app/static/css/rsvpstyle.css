@@ -71,14 +71,17 @@ h3{
 
 
 #rsvpbox{
-    background-color:#AD8A80;
+    margin:50px;
+    margin-top:20px;
+    background-color:#FFFFFF;
+    padding:20px;
     width:50%;
-    height:300px;
-    align-content: center;
-    margin-top:150px;
-    margin-left:300px;
-    border:white 4px solid;
+    border-radius:8px;
+    opacity:0.8;
+    margin-left:345px;
 }
 
-
+#rsvpbox p{
+    font-size:25px;
+}
 
