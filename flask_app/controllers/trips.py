@@ -102,23 +102,28 @@ def destroy(id):
 
 @app.route('/searchpage')
 def search():
+    if 'user_id' not in session:
+        return redirect('/logout')
+    
     return render_template("search.html")
 
 @app.route('/rsvp',methods=['POST'])
 def user_rsvp():
+    if 'user_id' not in session:
+        return redirect('/logout')
+
     data = {
         'user_id': request.form['user_id'],
         'trip_id': request.form['trip_id']
     }
     User.add_rsvp(data)
-    return redirect('/rsvp')
+    return redirect(f"/rsvp/{request.form['trip_id']}")
 
-@app.route('/rsvp')
-def show_rsvp():
+@app.route('/rsvp/<int:id>')
+def show_rsvp(id):
+    if 'user_id' not in session:
+        return redirect('/logout')
     data = {
         "id":id
     }
-    user_data = {
-        "id":session['user_id']
-    }
-    return render_template('confirmrsvp.html')
+    return render_template('confirmrsvp.html',trip=Trip.get_one_with_user(data), rsvp=Trip.get_by_id(data))

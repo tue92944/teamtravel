@@ -38,6 +38,16 @@ class Trip:
         return connectToMySQL(cls.db).query_db(query, data)
 
     @classmethod
+    def opentrips(cls,data):
+        query="SELECT * FROM trips WHERE trips.id NOT IN (SELECT trip_id FROM rsvps WHERE user_id=%(id)s);"
+        results=connectToMySQL(cls.db).query_db(query,data)
+        trips=[]
+        for row in results:
+            trips.append(cls(row))
+        print(trips)
+        return trips
+
+    @classmethod
     def update(cls, data):
         query = "UPDATE trips SET location=%(location)s, description=%(description)s, startdate=%(startdate)s, enddate=%(enddate)s,updated_at=NOW() WHERE id = %(id)s;"
         return connectToMySQL(cls.db).query_db(query,data)
@@ -136,6 +146,7 @@ class Trip:
                 "first_name": row['first_name'],
                 "last_name":row['last_name'],
                 "email":row['email'],
+                "password":row['password'],
                 "created_at": row['users.created_at'],
                 "updated_at": row['users.updated_at']
             }

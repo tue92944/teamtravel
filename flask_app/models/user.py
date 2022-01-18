@@ -13,6 +13,7 @@ class User:
         self.password = data['password']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
+        self.rsvptrips=[]
 
     @classmethod
     def save(cls,data):
