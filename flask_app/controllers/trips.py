@@ -1,4 +1,5 @@
 from flask_app import app
+from datetime import datetime
 from flask import render_template,request,redirect,session,flash
 from flask_app.models.user import User
 from flask_app.models.trip import Trip
@@ -40,10 +41,13 @@ def confirm():
 def mytrips():
     if 'user_id' not in session:
         return redirect('/logout')
-    data ={
+    user_data ={
         'id': session['user_id']
     }
-    return render_template("mytrips.html",user=User.get_by_id(data),trips=Trip.get_trips_with_user())
+    data = {
+        "id":id
+    }
+    return render_template("mytrips.html",user=User.get_by_id(user_data),trips=Trip.get_trips_with_user(),now=datetime.now())
 
 
 @app.route('/edit/<int:id>')

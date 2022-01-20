@@ -32,22 +32,29 @@
             <div class="tripbox">
                 {% for trip in trips %}
                     {% if trip.creator.id == session.user_id %}
-                        <h6>You booked a trip to {{trip.location}} {{trip.time_span()}}.</h6>
-                        <div id="buttons">
-                            <a href="/view/{{trip.id}}">View</a>
-                            <a href="/edit/{{trip.id}}">Edit</a>
-                            <a href="/destroy/{{trip.id}}">Delete</a>
-                        </div>       
+                        {% if trip.enddate > now %}
+                            <h6>You booked a trip to {{trip.location}} {{trip.time_span()}}.</h6>
+                            <div id="buttons">
+                                <a href="/view/{{trip.id}}">View</a>
+                                <a href="/edit/{{trip.id}}">Edit</a>
+                                <a href="/destroy/{{trip.id}}">Delete</a>
+                            </div>   
+                        {% endif %}  
                     {% endif %}
-                {% endfor %}
+                {% endfor %} 
+                
             </div>
         </div>
         <div id="leftcol">
             <h3>Your Past Trips</h3>
             <div class="tripbox">
-                <h6>You went on a trip to Italy 1 year ago</h6>
-                <h6>You went on a trip to Italy 1 year ago</h6>
-                <h6>You went on a trip to Italy 1 year ago</h6>
+            {% for trip in trips %}
+                {% if trip.creator.id==session.user_id %}
+                    {%if trip.enddate < now %}
+                        <h6>You went on a trip to {{trip.location}} {{trip.time_span()}}</h6>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
             </div>
         </div>
     </div>

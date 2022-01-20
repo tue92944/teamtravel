@@ -29,7 +29,9 @@
         <div id="triptext">
         {% for trip in trips %}
             {% if trip.creator.id != session.user_id %}
-                <h6>{{trip.creator.first_name}} booked a trip to <a href="/view/{{trip.id}}">{{trip.location}}</a> {{trip.time_span()}}.</h6>
+                {%if trip.startdate > now %}
+                    <h6>{{trip.creator.first_name}} booked a trip to <a href="/view/{{trip.id}}">{{trip.location}}</a> {{trip.time_span()}}.</h6>
+                {% endif %}
             {% endif %}
         {% endfor %}
         </div>

@@ -1,5 +1,6 @@
 from flask import render_template,redirect,session,request, flash
 from flask_app import app
+from datetime import datetime
 from flask_app.models.user import User
 from flask_app.models.trip import Trip
 from flask_bcrypt import Bcrypt
@@ -45,7 +46,7 @@ def dashboard():
     data ={
         'id': session['user_id']
     }
-    return render_template("dashboard.html",user=User.get_by_id(data),trips=Trip.get_trips_with_user())
+    return render_template("dashboard.html",user=User.get_by_id(data),trips=Trip.get_trips_with_user(),now=datetime.now())
 
 
 
