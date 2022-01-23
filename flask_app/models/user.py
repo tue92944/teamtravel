@@ -14,7 +14,7 @@ class User:
         self.password = data['password']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
-        self.trips=[]
+        self.savedtrips=[]
 
     @classmethod
     def save(cls,data):
@@ -45,24 +45,25 @@ class User:
         return cls(results[0])
 
     @classmethod
-    def rsvpd_trips(cls,data):
-        query="SELECT * FROM users LEFT JOIN rsvps ON users.id=rsvps.user_id LEFT JOIN trips ON trips.id=rsvps.trip_id WHERE users.id=%(id)s;"
-        results=connectToMySQL(cls.db).query_db(query,data)
-        user=cls(results[0])
+    def get_by_rsvp(cls,data):
+        query = "SELECT * FROM users LEFT JOIN rsvps ON users.id = rsvps.user_id LEFT JOIN trips ON trips.id = rsvps.trip_id WHERE users.id = %(id)s;"
+        results = connectToMySQL(cls.db).query_db(query,data)
+
+        user = cls(results[0])
         for row in results:
-            if row['trips.id']==None:
+            if row['trips.id'] == None:
                 break
-            data={
-                "id":row['trips.id'],
-                "location":row['location'],
-                "description":row['description'],
-                "startdate":row['startdate'],
-                "enddate":row['enddate'],
-                "created_at":row['trips.created_at'],
-                "updated_at":row['trips.updated_at'],
+            data = {
+                "id": row['trips.id'],
+                "location": row['location'],
+                "startdate": row['startdate'],
+                "enddate": row['enddate'],
+                "description": row['description'],
+                "created_at": row['trips.created_at'],
+                "updated_at": row['trips.updated_at'],
                 "user_id":row['trips.user_id']
             }
-            user.trips.append(trip.Trip(data))
+            user.savedtrips.append(trip.Trip(data))
         return user
 
     @classmethod

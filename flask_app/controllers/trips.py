@@ -5,6 +5,7 @@ from flask_app.models.user import User
 from flask_app.models.trip import Trip
 
 
+
 @app.route('/newtrip')
 def createpage():
     if 'user_id' not in session:
@@ -48,6 +49,13 @@ def mytrips():
         "id":id
     }
     return render_template("mytrips.html",user=User.get_by_id(user_data),trips=Trip.get_trips_with_user(),now=datetime.now())
+
+@app.route('/showrsvptrips')
+def show_triprsvp():
+    data = {
+        "id": id
+    }
+    return render_template('rsvptrips.html',user=User.get_by_rsvp(data))
 
 
 @app.route('/edit/<int:id>')
@@ -104,12 +112,6 @@ def destroy(id):
     Trip.destroy(data)
     return redirect('/mytripspage')
 
-@app.route('/searchpage')
-def search():
-    if 'user_id' not in session:
-        return redirect('/logout')
-    
-    return render_template("search.html")
 
 @app.route('/rsvp',methods=['POST'])
 def user_rsvp():

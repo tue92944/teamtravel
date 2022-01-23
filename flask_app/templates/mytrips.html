@@ -20,7 +20,7 @@
         <div id="rightnav">
             <ul>
                 <li><a href="/newtrip">Create</a></li>
-                <li><a href="/searchpage">Search</a></li>
+                <li><a href="/rsvptrips">RSVPs</a></li>
                 <li><a href="/mytripspage">My Trips</a></li>
                 <li><a href="/logout">Logout</a></li>
             </ul>
@@ -28,12 +28,12 @@
     </div>
     <div id="main">
         <div id="rightcol">
-            <h3>My Planned Trips</h3>
+            <h3>Manage My Trips</h3>
             <div class="tripbox">
                 {% for trip in trips %}
                     {% if trip.creator.id == session.user_id %}
                         {% if trip.enddate > now %}
-                            <h6>You booked a trip to {{trip.location}} {{trip.time_span()}}.</h6>
+                            <h6>You created a trip to {{trip.location}} {{trip.time_span()}}.</h6>
                             <div id="buttons">
                                 <a href="/view/{{trip.id}}">View</a>
                                 <a href="/edit/{{trip.id}}">Edit</a>
@@ -41,9 +41,9 @@
                             </div>   
                         {% endif %}  
                     {% endif %}
-                {% endfor %} 
-                
+                {% endfor %}                      
             </div>
+            <a id="rsvpbutton" href="/showrsvptrips">Manage My RSVPs</a>
         </div>
         <div id="leftcol">
             <h3>Your Past Trips</h3>

@@ -99,6 +99,7 @@ class Trip:
             all_trips.append(single_trip)
         return all_trips
 
+
     @classmethod
     def get_one_with_user(cls,data):
         query="SELECT * FROM trips LEFT JOIN users ON trips.user_id=users.id WHERE trips.id=%(id)s"
