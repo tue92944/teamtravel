@@ -161,9 +161,6 @@ class Trip:
     @staticmethod
     def validate_trip(trip):
         is_valid = True
-        # startdate=datetime.strptime(trip['startdate'],"%Y-%m-%d")
-        # enddate=datetime.strptime(trip['enddate'],"%Y-%m-%d")
-        
         if len(trip['location']) < 3:
             flash("Location must be at least 3 characters","trip")
             is_valid = False
