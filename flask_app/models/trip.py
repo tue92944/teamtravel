@@ -156,6 +156,8 @@ class Trip:
             trip.users_who_rsvpd.append(user.User(data))
         return trip
 
+
+
     @staticmethod
     def validate_trip(trip):
         is_valid = True
@@ -168,10 +170,10 @@ class Trip:
         if len(trip['description']) < 3:
             flash("Description must be at least 3 characters","trip")
             is_valid = False
-        if trip['startdate'] == "":
+        if trip['startdate'] == " ":
             flash("Please enter a start date","trip")
             is_valid = False
-        if trip['enddate'] == "":
+        if trip['enddate'] == " ":
             flash("Please enter an end date","trip")
             is_valid = False
         if startdate<datetime.now():

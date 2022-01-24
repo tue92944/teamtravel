@@ -20,7 +20,7 @@
         <div id="rightnav">
             <ul>
                 <li><a href="/newtrip">Create</a></li>
-                <li><a href="/rsvptrips">RSVPs</a></li>
+                <li><a href="/showrsvptrips/{{user.id}}">RSVPs</a></li>
                 <li><a href="/mytripspage">My Trips</a></li>
                 <li><a href="/logout">Logout</a></li>
             </ul>
@@ -41,9 +41,10 @@
                             </div>   
                         {% endif %}  
                     {% endif %}
-                {% endfor %}                      
+                {% endfor %}
             </div>
-            <a id="rsvpbutton" href="/showrsvptrips">Manage My RSVPs</a>
+                    <a id="rsvpbutton" href="/showrsvptrips/{{user.id}}">Manage My RSVPs</a> 
+                
         </div>
         <div id="leftcol">
             <h3>Your Past Trips</h3>

@@ -55,7 +55,7 @@ def show_triprsvp():
     data = {
         "id": id
     }
-    return render_template('rsvptrips.html',user=User.get_by_rsvp(data))
+    return render_template('rsvptrips.html',user=Trip.get_by_id(data))
 
 
 @app.route('/edit/<int:id>')
@@ -132,4 +132,16 @@ def show_rsvp(id):
     data = {
         "id":id
     }
-    return render_template('confirmrsvp.html',trip=Trip.get_one_with_user(data), rsvp=Trip.get_by_id(data))
+    return render_template('confirmrsvp.html',trip=Trip.get_one_with_user(data), rsvp=Trip.get_by_id(data),user=User.get_by_id(data))
+
+@app.route('/showrsvptrips/<int:id>')
+def show_rsvp_trip(id):
+    if 'user_id' not in session:
+        return redirect('/logout')
+    data={
+        "id":id
+    }
+    user_data={
+        "id":session['user_id']
+    }
+    return render_template('rsvptrips.html', rsvp=User.get_by_tripid(data),users=User.get_by_id(user_data))
