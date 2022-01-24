@@ -29,6 +29,7 @@ def newtrip():
         "user_id":session['user_id']
     }
     trip_id = Trip.save(data)
+    print("startdate")
 
     return redirect('/confirmed')
 
