@@ -66,6 +66,11 @@ class Trip:
         query = "DELETE FROM trips WHERE id = %(id)s;"
         return connectToMySQL(cls.db).query_db(query,data)
 
+    @classmethod
+    def deletersvp(cls,data):
+        query= "DELETE FROM rsvps WHERE trip_id=%(id)s AND user_id=%(user_id)s;"
+        return connectToMySQL(cls.db).query_db(query,data)
+
 
     @classmethod
     def get_trips_with_user(cls):

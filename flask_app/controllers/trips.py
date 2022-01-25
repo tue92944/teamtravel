@@ -28,16 +28,22 @@ def newtrip():
         "enddate": request.form['enddate'],
         "user_id":session['user_id']
     }
+    userdata={
+        "id":session['user_id']
+    }
     trip_id = Trip.save(data)
     print("startdate")
 
-    return redirect('/confirmed')
+    return redirect('/confirmed',user=User.get_by_id(userdata))
 
 @app.route('/confirmed')
 def confirm():
     if 'user_id' not in session:
         return redirect('/logout')
-    return render_template('confirmed.html')
+    data={
+        "id": session['user_id']
+    }
+    return render_template('confirmed.html',user=User.get_by_id(data))
 
 @app.route('/mytripspage')
 def mytrips():
@@ -56,7 +62,10 @@ def show_triprsvp():
     data = {
         "id": id
     }
-    return render_template('rsvptrips.html',user=Trip.get_by_id(data))
+    userdata={
+        "id":session['user_id']
+    }
+    return render_template('rsvptrips.html',user=Trip.get_by_id(data),users=User.get_by_id(data))
 
 
 @app.route('/edit/<int:id>')
@@ -85,9 +94,12 @@ def update():
         "enddate": request.form['enddate'],
         "id":request.form['id']
     }
+    userdata={
+        "id":session['user_id']
+    }
 
     Trip.update(data)
-    return redirect ('/mytripspage')
+    return redirect ('/mytripspage',user=User.get_by_id(data))
 
 @app.route('/view/<int:id>')
 def view(id):
@@ -113,6 +125,20 @@ def destroy(id):
     Trip.destroy(data)
     return redirect('/mytripspage')
 
+@app.route('/deletersvp/<int:id>')
+def destroyrsvp(id):
+    if 'user_id' not in session:
+        return redirect('/logout')
+    rsvpdata={
+        "id":id,
+        "user_id":session['user_id']
+    }
+    data={
+        "id":session['user_id']
+    }
+    Trip.deletersvp(rsvpdata)
+    return redirect(f"/showrsvptrips/{session['user_id']}")
+
 
 @app.route('/rsvp',methods=['POST'])
 def user_rsvp():
@@ -133,7 +159,10 @@ def show_rsvp(id):
     data = {
         "id":id
     }
-    return render_template('confirmrsvp.html',trip=Trip.get_one_with_user(data), rsvp=Trip.get_by_id(data),user=User.get_by_id(data))
+    userdata={
+        "id":session['user_id']
+    }
+    return render_template('confirmrsvp.html',trip=Trip.get_one_with_user(data), rsvp=Trip.get_by_id(data),users=User.get_by_id(userdata))
 
 @app.route('/showrsvptrips/<int:id>')
 def show_rsvp_trip(id):
@@ -145,4 +174,4 @@ def show_rsvp_trip(id):
     user_data={
         "id":session['user_id']
     }
-    return render_template('rsvptrips.html', rsvp=User.get_by_tripid(data),users=User.get_by_id(user_data))
+    return render_template('rsvptrips.html', rsvp=User.get_by_tripid(data),user=User.get_by_id(user_data))
