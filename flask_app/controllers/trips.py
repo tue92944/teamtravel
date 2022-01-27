@@ -34,7 +34,7 @@ def newtrip():
     trip_id = Trip.save(data)
     print("startdate")
 
-    return redirect('/confirmed',user=User.get_by_id(userdata))
+    return redirect('/confirmed')
 
 @app.route('/confirmed')
 def confirm():
@@ -99,7 +99,7 @@ def update():
     }
 
     Trip.update(data)
-    return redirect ('/mytripspage',user=User.get_by_id(data))
+    return redirect ('/mytripspage')
 
 @app.route('/view/<int:id>')
 def view(id):
